@@ -2,8 +2,7 @@ import dayjs from 'dayjs';
 import { ATTENDANCE_LETTER, ATTENDANCE_COLOR, DAYS_SHORT } from '../constants';
 
 // ===== Date Utilities =====
-export const formatDate = (date, format = 'DD MMM YYYY') =>
-  date ? dayjs(date).format(format) : '-';
+export const formatDate = (date, format = 'DD MMM YYYY') => (date ? dayjs(date).format(format) : '-');
 
 export const formatDateShort = (date) => formatDate(date, 'DD/MM/YYYY');
 
@@ -27,7 +26,8 @@ export const getCurrentMonthYear = () => {
   return { month: now.month(), year: now.year() };
 };
 
-export const monthLabel = (month, year) => `${['January','February','March','April','May','June','July','August','September','October','November','December'][month]} ${year}`;
+export const monthLabel = (month, year) =>
+  `${['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'][month]} ${year}`;
 
 // ===== Attendance Utilities =====
 export const getAttendanceLetter = (status) => ATTENDANCE_LETTER[status] || '-';
@@ -52,17 +52,13 @@ export const getStatusBadgeClass = (status) => {
 
 export const formatStatus = (status) => {
   if (!status) return '-';
-  return status
-    .replace(/_/g, ' ')
-    .replace(/\b\w/g, (c) => c.toUpperCase());
+  return status.replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
 };
 
 // ===== Name Utilities =====
 export const getInitials = (name = '') => {
   const parts = name.trim().split(' ');
-  return parts.length >= 2
-    ? (parts[0][0] + parts[parts.length - 1][0]).toUpperCase()
-    : (name[0] || '').toUpperCase();
+  return parts.length >= 2 ? (parts[0][0] + parts[parts.length - 1][0]).toUpperCase() : (name[0] || '').toUpperCase();
 };
 
 // ===== Employee ID Generator =====
