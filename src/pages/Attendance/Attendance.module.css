@@ -1,0 +1,147 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - var(--header-height));
+  overflow: hidden;
+}
+
+.monthSelector {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  background: var(--color-surface);
+  padding: 4px 8px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+}
+
+.monthLabel {
+  font-size: var(--font-size-md);
+  font-weight: var(--font-weight-bold);
+  min-width: 140px;
+  text-align: center;
+  color: var(--text-primary);
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-4);
+  flex-wrap: wrap;
+  gap: var(--space-4);
+}
+
+.filterIcon {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-secondary);
+  margin-right: var(--space-2);
+}
+
+.gridWrapper {
+  overflow: auto;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  max-width: 100%;
+  flex: 1;
+  min-height: 0;
+}
+
+.gridTable {
+  border-collapse: separate;
+  border-spacing: 0;
+  width: max-content;
+}
+
+.gridTable th,
+.gridTable td {
+  padding: 10px 8px;
+  border-bottom: 1px solid var(--color-border);
+  border-right: 1px solid var(--color-border);
+  text-align: center;
+  vertical-align: middle;
+}
+
+.gridTable th:last-child,
+.gridTable td:last-child {
+  border-right: none;
+}
+
+.gridTable thead th {
+  background: var(--color-surface-2);
+  border-bottom: 2px solid var(--color-border);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+/* Sticky columns */
+.stickyCol {
+  position: sticky;
+  left: 0;
+  background: var(--color-surface);
+  z-index: 20;
+  min-width: 200px;
+  box-shadow: 2px 0 5px rgba(0,0,0,0.02);
+  text-align: left !important;
+}
+
+.stickyCol2 {
+  position: sticky;
+  left: 200px; /* Width of stickyCol */
+  background: var(--color-surface);
+  z-index: 20;
+  min-width: 120px;
+  box-shadow: 2px 0 5px rgba(0,0,0,0.02);
+  text-align: left !important;
+}
+
+.gridTable thead .stickyCol,
+.gridTable thead .stickyCol2 {
+  background: var(--color-surface-2);
+  z-index: 30;
+}
+
+.dayCol {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  min-width: 32px;
+}
+
+.dayName {
+  font-size: 10px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  font-weight: var(--font-weight-semibold);
+}
+
+.dayNum {
+  font-size: 13px;
+  font-weight: var(--font-weight-bold);
+  color: var(--text-primary);
+}
+
+.weekendHeader {
+  background: #fdf2f8 !important; /* light pinkish */
+}
+.weekendCell {
+  background: #fdf2f8 !important;
+}
+
+.statusCell {
+  width: 24px;
+  height: 24px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  font-weight: 800;
+  margin: 0 auto;
+}

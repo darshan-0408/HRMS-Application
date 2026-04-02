@@ -1,0 +1,197 @@
+/* ── Wrapper ─────────────────────────────────── */
+.wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+/* ── Trigger button ──────────────────────────── */
+.trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 12px;
+  background: var(--color-surface);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-family: var(--font-family);
+  transition: all 0.15s;
+  white-space: nowrap;
+  height: 38px;
+}
+.trigger:hover {
+  border-color: var(--color-primary-400);
+  color: var(--text-primary);
+}
+
+.triggerActive {
+  background: var(--color-primary-600);
+  border-color: var(--color-primary-600);
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+}
+.triggerActive:hover {
+  background: var(--color-primary-700);
+  border-color: var(--color-primary-700);
+}
+
+.triggerLabel {
+  flex: 1;
+  text-align: left;
+}
+
+.calIcon {
+  flex-shrink: 0;
+  opacity: 0.75;
+}
+.trigger:hover .calIcon,
+.triggerActive .calIcon {
+  opacity: 1;
+}
+
+/* ── Backdrop ────────────────────────────────── */
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  z-index: 998;
+  animation: fadeIn 0.15s ease;
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ── Dialog ──────────────────────────────────── */
+.dialog {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 999;
+  width: 280px;
+  background: #fff;
+  border-radius: 4px;
+  box-shadow: 0 11px 15px rgba(0,0,0,0.2), 0 9px 46px rgba(0,0,0,0.12), 0 24px 38px rgba(0,0,0,0.14);
+  overflow: hidden;
+  animation: dialogIn 0.18s ease;
+}
+@keyframes dialogIn {
+  from { opacity: 0; transform: translate(-50%, -52%) scale(0.97); }
+  to   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+}
+
+/* ── Header ──────────────────────────────────── */
+.header {
+  background: #3f51b5;
+  padding: 16px 20px 14px;
+  color: #fff;
+}
+
+.yearRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.yrArrow {
+  background: none;
+  border: none;
+  padding: 2px;
+  cursor: pointer;
+  color: rgba(255,255,255,0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background 0.12s, color 0.12s;
+}
+.yrArrow:hover {
+  background: rgba(255,255,255,0.15);
+  color: #fff;
+}
+
+.yearText {
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.85);
+  letter-spacing: 0.02em;
+}
+
+.headerMonth {
+  font-size: 28px;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+}
+
+/* ── Month Grid ──────────────────────────────── */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  padding: 12px 8px 4px;
+}
+
+.cell {
+  padding: 14px 8px;
+  border-radius: 50%;
+  font-size: 13px;
+  font-weight: 400;
+  text-align: center;
+  cursor: pointer;
+  border: none;
+  background: none;
+  color: rgba(0, 0, 0, 0.87);
+  font-family: var(--font-family);
+  transition: background 0.12s;
+  aspect-ratio: unset;
+  position: relative;
+  letter-spacing: 0.01em;
+}
+.cell:hover {
+  background: rgba(63, 81, 181, 0.08);
+}
+
+.cellCurrent {
+  color: #3f51b5;
+  font-weight: 700;
+}
+
+.cellSelected {
+  background: #3f51b5 !important;
+  color: #fff !important;
+  font-weight: 500;
+  border-radius: 50%;
+}
+
+/* ── Actions ─────────────────────────────────── */
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 4px;
+  padding: 8px 8px 8px;
+}
+
+.actionBtn {
+  padding: 8px 12px;
+  background: none;
+  border: none;
+  font-size: 13px;
+  font-weight: 600;
+  color: #3f51b5;
+  cursor: pointer;
+  border-radius: 4px;
+  font-family: var(--font-family);
+  letter-spacing: 0.08em;
+  transition: background 0.12s;
+  text-transform: uppercase;
+}
+.actionBtn:hover {
+  background: rgba(63, 81, 181, 0.08);
+}

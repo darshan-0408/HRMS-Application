@@ -1,0 +1,36 @@
+entity:
+  name: EmployeeType
+  plural: EmployeeTypes
+  module: settings-management
+  description: Staff employment types (e.g., Full-time, Part-time)
+
+fields:
+  - name: employee_type_id
+    type: String
+    external_id: true
+    unique: true
+
+  - name: name
+    type: String
+    required: true
+    primary: true
+    searchable: true
+    filterable: true
+    sortable: true
+
+operations:
+  include:
+    - create
+    - update
+    - softDelete
+    - restore
+    - get
+    - getByExternalId
+    - list
+    - count
+
+events:
+  source: "eduapp.settings-management"
+
+permissions:
+  prefix: "settings:employee-type"

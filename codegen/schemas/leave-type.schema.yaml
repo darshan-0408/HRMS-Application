@@ -1,0 +1,54 @@
+entity:
+  name: LeaveType
+  plural: LeaveTypes
+  module: settings-management
+  description: Leave configuration rules for HRMS
+
+fields:
+  - name: leave_type_id
+    type: String
+    external_id: true
+    unique: true
+
+  - name: leaveCode
+    type: String
+    required: true
+    unique: true
+    primary: true
+    searchable: true
+    filterable: true
+
+  - name: leaveName
+    type: String
+    required: true
+    searchable: true
+    sortable: true
+
+  - name: category
+    type: String
+    enum: [paid, unpaid, restricted]
+    required: true
+    filterable: true
+
+  - name: maxConsecutiveDays
+    type: Number
+    integer: true
+    min: 1
+    required: true
+
+operations:
+  include:
+    - create
+    - update
+    - softDelete
+    - restore
+    - get
+    - getByExternalId
+    - list
+    - count
+
+events:
+  source: "eduapp.settings-management"
+
+permissions:
+  prefix: "settings:leave-type"

@@ -1,0 +1,264 @@
+entity:
+  name: Employee
+  plural: Employees
+  module: employee-management
+  description: Core profile record for a faculty or staff member
+
+fields:
+  - name: employee_id
+    type: String
+    external_id: true
+    unique: true
+
+  - name: empId
+    type: String
+    required: true
+    unique: true
+    primary: true
+    searchable: true
+    sortable: true
+
+  # --- Basic Details ---
+  - name: title
+    type: String
+    enum: [Mr, Ms, Mrs, Dr, Prof]
+    filterable: true
+
+  - name: firstName
+    type: String
+    required: true
+    searchable: true
+
+  - name: lastName
+    type: String
+    required: true
+    searchable: true
+
+  - name: email
+    type: String
+    required: true
+    unique: true
+    searchable: true
+
+  - name: mobile
+    type: String
+    required: true
+    searchable: true
+
+  # --- Work Details ---
+  - name: departmentId
+    type: String
+    required: true
+    filterable: true
+    description: "References department_id in settings-management"
+
+  - name: academicDept
+    type: String
+    filterable: true
+
+  - name: designationId
+    type: String
+    required: true
+    filterable: true
+    description: "References designation_id in settings-management"
+
+  - name: doj
+    type: Date
+    required: true
+    sortable: true
+
+  - name: empTypeId
+    type: String
+    filterable: true
+    description: "References employee_type_id in settings-management"
+
+  - name: empSubType
+    type: String
+    filterable: true
+
+  - name: empCategoryId
+    type: String
+    filterable: true
+    description: "References employee_category_id in settings-management"
+
+  - name: hiringSource
+    type: String
+
+  - name: expYears
+    type: Number
+    integer: true
+    min: 0
+
+  - name: expMonths
+    type: Number
+    integer: true
+    min: 0
+    max: 11
+
+  - name: qualification
+    type: String
+
+  - name: reportingTo
+    type: String
+    description: "References another employee_id in employee-management"
+
+  - name: status
+    type: String
+    enum: [active, inactive]
+    default: active
+    filterable: true
+
+  # --- Personal Details ---
+  - name: fatherName
+    type: String
+
+  - name: aadhaar
+    type: String
+    unique: true
+    searchable: true
+
+  - name: pan
+    type: String
+    unique: true
+    searchable: true
+
+  - name: passport
+    type: String
+    searchable: true
+
+  - name: pfNumber
+    type: String
+
+  - name: esicNumber
+    type: String
+
+  - name: dob
+    type: Date
+
+  - name: bloodGroup
+    type: String
+    enum: [A+, A-, B+, B-, AB+, AB-, O+, O-]
+    filterable: true
+
+  - name: gender
+    type: String
+    enum: [Male, Female, Other]
+    filterable: true
+
+  - name: maritalStatus
+    type: String
+    enum: [Single, Married, Divorced, Widowed]
+    filterable: true
+
+  - name: religion
+    type: String
+
+  - name: caste
+    type: String
+
+  - name: personalCategory
+    type: String
+
+  # --- Contact Details ---
+  - name: secondaryEmail
+    type: String
+  
+  - name: secondaryContact
+    type: String
+
+  - name: scholarLink
+    type: String
+
+  - name: linkedinLink
+    type: String
+
+  - name: address
+    type: Object
+    fields:
+      - name: address1
+        type: String
+      - name: address2
+        type: String
+      - name: country
+        type: String
+      - name: state
+        type: String
+        filterable: true
+      - name: city
+        type: String
+        filterable: true
+      - name: pincode
+        type: String
+
+  # --- Bank Details ---
+  - name: bankAccounts
+    type: "[Object]"
+    item_name: BankAccount
+    fields:
+      - name: accountCategory
+        type: String
+        enum: [primary, secondary]
+        required: true
+      - name: accountType
+        type: String
+        enum: [Savings, Current]
+      - name: accountNo
+        type: String
+      - name: bankName
+        type: String
+      - name: ifsc
+        type: String
+
+operations:
+  include:
+    - create
+    - update
+    - softDelete
+    - restore
+    - get
+    - getByExternalId
+    - list
+    - listDeleted
+    - count
+    - batchDelete
+    - bulkCreate
+    - csvExport
+
+events:
+  source: "eduapp.employee-management"
+
+permissions:
+  prefix: "employee:employee"
+
+preconditions:
+  crossEntity:
+    create:
+      - guard: assertDepartmentActive
+        field: departmentId
+        model: Department
+        lookupField: department_id
+        requiredFilter:
+          isDeleted: { $ne: true }
+        error: "Department not found"
+      - guard: assertDesignationActive
+        field: designationId
+        model: Designation
+        lookupField: designation_id
+        requiredFilter:
+          isDeleted: { $ne: true }
+        error: "Designation not found"
+    update:
+      - guard: assertDepartmentActive
+        field: departmentId
+        model: Department
+        lookupField: department_id
+        requiredFilter:
+          isDeleted: { $ne: true }
+        error: "Department not found"
+      - guard: assertDesignationActive
+        field: designationId
+        model: Designation
+        lookupField: designation_id
+        requiredFilter:
+          isDeleted: { $ne: true }
+        error: "Designation not found"

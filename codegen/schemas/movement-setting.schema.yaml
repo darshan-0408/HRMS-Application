@@ -1,0 +1,41 @@
+entity:
+  name: MovementSetting
+  plural: MovementSettings
+  module: settings-management
+  description: Global configuration for movement register rules
+
+fields:
+  - name: movement_setting_id
+    type: String
+    external_id: true
+    unique: true
+
+  - name: maxMovementsPerMonth
+    type: Number
+    integer: true
+    min: 0
+    required: true
+
+  - name: maxDurationMinutes
+    type: Number
+    integer: true
+    min: 15
+    required: true
+
+  - name: autoApprovalEnabled
+    type: Boolean
+    default: false
+
+operations:
+  include:
+    - create
+    - update
+    - get
+    - getByExternalId
+    - list
+
+events:
+  source: "eduapp.settings-management"
+
+permissions:
+  prefix: "settings:movement-setting"

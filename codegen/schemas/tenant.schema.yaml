@@ -1,0 +1,65 @@
+entity:
+  name: Tenant
+  plural: Tenants
+  module: tenant-management
+  description: Individual college or institution record for branding and isolation
+
+fields:
+  - name: tenant_id
+    type: String
+    external_id: true
+    unique: true
+
+  - name: name
+    type: String
+    required: true
+    unique: true
+    primary: true
+    searchable: true
+    sortable: true
+
+  - name: code
+    type: String
+    required: true
+    unique: true
+    searchable: true
+    filterable: true
+
+  - name: email
+    type: String
+    searchable: true
+
+  - name: domain
+    type: String
+    searchable: true
+    filterable: true
+
+  - name: logoUrl
+    type: String
+
+  - name: primaryColor
+    type: String
+    default: "#2563eb"
+
+  - name: isActive
+    type: Boolean
+    default: true
+    filterable: true
+
+operations:
+  include:
+    - create
+    - update
+    - softDelete
+    - restore
+    - get
+    - getByExternalId
+    - list
+    - count
+    - csvExport
+
+events:
+  source: "eduapp.tenant-management"
+
+permissions:
+  prefix: "system:tenant"

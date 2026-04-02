@@ -1,0 +1,52 @@
+entity:
+  name: Department
+  plural: Departments
+  module: settings-management
+  description: Core department setting for HR and Academic categorization
+
+fields:
+  - name: department_id
+    type: String
+    external_id: true
+    unique: true
+
+  - name: deptName
+    type: String
+    required: true
+    primary: true
+    searchable: true
+    filterable: true
+    sortable: true
+
+  - name: shortName
+    type: String
+    searchable: true
+
+  - name: deptCode
+    type: String
+    unique: true
+    searchable: true
+
+  - name: admin
+    type: String
+    searchable: true
+
+  - name: adminContact
+    type: String
+
+operations:
+  include:
+    - create
+    - update
+    - softDelete
+    - restore
+    - get
+    - getByExternalId
+    - list
+    - count
+
+events:
+  source: "eduapp.settings-management"
+
+permissions:
+  prefix: "settings:department"

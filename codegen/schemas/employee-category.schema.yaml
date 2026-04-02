@@ -1,0 +1,36 @@
+entity:
+  name: EmployeeCategory
+  plural: EmployeeCategories
+  module: settings-management
+  description: Classification of staff (e.g., Permanent, Contract)
+
+fields:
+  - name: employee_category_id
+    type: String
+    external_id: true
+    unique: true
+
+  - name: name
+    type: String
+    required: true
+    primary: true
+    searchable: true
+    filterable: true
+    sortable: true
+
+operations:
+  include:
+    - create
+    - update
+    - softDelete
+    - restore
+    - get
+    - getByExternalId
+    - list
+    - count
+
+events:
+  source: "eduapp.settings-management"
+
+permissions:
+  prefix: "settings:employee-category"

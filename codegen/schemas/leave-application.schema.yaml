@@ -1,0 +1,129 @@
+entity:
+  name: LeaveApplication
+  plural: LeaveApplications
+  module: leave-management
+  description: Employee leave requests and approval tracking
+
+fields:
+  - name: leave_application_id
+    type: String
+    external_id: true
+    unique: true
+
+  - name: employeeId
+    type: String
+    required: true
+    filterable: true
+
+  - name: leaveTypeId
+    type: String
+    required: true
+    filterable: true
+
+  - name: fromDate
+    type: Date
+    required: true
+    sortable: true
+
+  - name: toDate
+    type: Date
+    required: true
+    sortable: true
+
+  - name: reason
+    type: String
+    required: true
+    searchable: true
+
+  - name: document
+    type: String # S3 Key or URL
+    
+  - name: days
+    type: "[Object]"
+    item_name: LeaveDay
+    fields:
+      - name: date
+        type: Date
+        required: true
+      - name: dayType
+        type: String
+
+  - name: totalDays
+    type: Number
+    required: true
+    sortable: true
+
+  - name: status
+    type: String
+    enum: [pending, approved, cancelled, rejected]
+    default: pending
+    filterable: true
+
+  - name: deptAdminApproval
+    type: String
+    enum: [pending, approved, rejected]
+    default: pending
+
+  - name: adminApproval
+    type: String
+    enum: [pending, approved, rejected]
+    default: pending
+
+operations:
+  include:
+    - create
+    - update
+    - softDelete
+    - get
+    - list
+    - count
+
+  custom:
+    - name: applyLeave
+      type: mutation
+      permission: "leave:application:create"
+      description: "Apply for a new leave with validation"
+      input:
+        - name: employeeId
+          type: String
+          required: true
+        - name: leaveTypeId
+          type: String
+          required: true
+        - name: fromDate
+          type: Date
+          required: true
+        - name: toDate
+          type: Date
+          required: true
+        - name: reason
+          type: String
+          required: true
+        - name: days
+          type: "[LeaveDayInput]" # Custom input type
+        - name: document
+          type: String
+      returns: LeaveApplication
+      event: LeaveApplied
+
+    - name: updateLeaveStatus
+      type: mutation
+      permission: "leave:application:update"
+      description: "Approve or reject a leave application"
+      input:
+        - name: id
+          type: ID
+          required: true
+        - name: status
+          type: String
+          required: true
+        - name: role
+          type: String # deptAdmin or admin
+      returns: LeaveApplication
+      event: LeaveStatusUpdated
+
+events:
+  source: "eduapp.leave-management"
+
+permissions:
+  prefix: "leave:application"

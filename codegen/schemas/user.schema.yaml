@@ -1,0 +1,72 @@
+entity:
+  name: User
+  plural: Users
+  module: identity-management
+  description: Authentication and authorization records for system access
+
+fields:
+  - name: user_id
+    type: String
+    external_id: true
+    unique: true
+
+  - name: username
+    type: String
+    required: true
+    primary: true
+    searchable: true
+
+  - name: email
+    type: String
+    required: true
+    searchable: true
+
+  - name: password
+    type: String
+    required: true
+
+  - name: role
+    type: String
+    enum: [super-admin, admin, employee]
+    default: employee
+    filterable: true
+
+  - name: employee_id
+    type: String
+    description: "References employee_id in employee-management"
+
+  - name: isActive
+    type: Boolean
+    default: true
+    filterable: true
+
+operations:
+  include:
+    - create
+    - update
+    - softDelete
+    - restore
+    - get
+    - getByExternalId
+    - list
+    - count
+
+  custom:
+    - name: login
+      type: mutation
+      permission: "identity:user:login" # Special permission or public
+      description: "Authenticates a user and returns a session token"
+      input:
+        - name: username
+          type: String
+          required: true
+        - name: password
+          type: String
+          required: true
+      returns: AuthResponse # Defined in typeDefs
+
+events:
+  source: "eduapp.identity-management"
+
+permissions:
+  prefix: "identity:user"

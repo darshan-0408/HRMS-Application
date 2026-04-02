@@ -1,0 +1,56 @@
+.topBar {
+  background: var(--color-surface);
+  padding: var(--space-6) var(--space-8);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.topBarLeft {
+  display: flex;
+  align-items: center;
+  gap: var(--space-5);
+}
+
+.empInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.empNameRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.empName {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--text-primary);
+  line-height: 1;
+}
+
+.empSub {
+  font-size: var(--font-size-sm);
+  color: var(--text-secondary);
+  font-weight: var(--font-weight-medium);
+}
+
+.topBarRight {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.tabsContainer {
+  background: var(--color-surface);
+  padding: 0 var(--space-8);
+  box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+}
+
+.tabContent {
+  padding: var(--space-6) var(--space-8);
+  max-width: 1400px;
+}

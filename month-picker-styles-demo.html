@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Month Picker Styles Demo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f1f5f9;
+      min-height: 100vh;
+      padding: 40px 20px;
+      color: #0f172a;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 28px;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 8px;
+    }
+    .subtitle {
+      text-align: center;
+      color: #64748b;
+      font-size: 14px;
+      margin-bottom: 48px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 32px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 28px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+      position: relative;
+    }
+
+    .card-label {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #94a3b8;
+      margin-bottom: 6px;
+    }
+    .card-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 4px;
+    }
+    .card-desc {
+      font-size: 13px;
+      color: #64748b;
+      margin-bottom: 24px;
+      line-height: 1.5;
+    }
+
+    .badge {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: #6366f1;
+      color: #fff;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 3px 10px;
+      border-radius: 99px;
+    }
+
+    .demo-area {
+      background: #f8fafc;
+      border-radius: 10px;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 80px;
+      border: 1px solid #e2e8f0;
+    }
+
+    /* =========================================
+       STYLE 1 — Arrow Navigator (Prev/Next)
+    ========================================= */
+    .nav-picker {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      background: #fff;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+    .nav-btn {
+      width: 38px;
+      height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      background: none;
+      border: none;
+      color: #64748b;
+      font-size: 18px;
+      transition: background 0.15s;
+      flex-shrink: 0;
+    }
+    .nav-btn:hover { background: #f1f5f9; color: #6366f1; }
+    .nav-label {
+      padding: 0 16px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #0f172a;
+      min-width: 120px;
+      text-align: center;
+      border-left: 1.5px solid #e2e8f0;
+      border-right: 1.5px solid #e2e8f0;
+      height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .nav-label:hover { background: #f1f5f9; }
+
+    /* =========================================
+       STYLE 2 — Dropdown Grid Popover
+    ========================================= */
+    .popover-wrapper {
+      position: relative;
+      display: inline-block;
+    }
+    .popover-trigger {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      background: #6366f1;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      box-shadow: 0 4px 12px rgba(99,102,241,0.35);
+      transition: all 0.15s;
+    }
+    .popover-trigger:hover { background: #4f46e5; transform: translateY(-1px); }
+    .popover-trigger svg { flex-shrink: 0; }
+
+    .popover-panel {
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: #fff;
+      border-radius: 14px;
+      box-shadow: 0 16px 48px rgba(0,0,0,0.15);
+      padding: 20px;
+      z-index: 100;
+      width: 280px;
+      display: none;
+    }
+    .popover-panel.open { display: block; animation: popIn 0.18s ease; }
+    @keyframes popIn {
+      from { opacity: 0; transform: translateX(-50%) translateY(-6px); }
+      to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+    }
+    .popover-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+    }
+    .popover-year {
+      font-size: 15px;
+      font-weight: 700;
+      color: #0f172a;
+    }
+    .popover-yr-btn {
+      background: #f1f5f9;
+      border: none;
+      border-radius: 6px;
+      width: 28px;
+      height: 28px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      color: #64748b;
+      transition: background 0.15s;
+    }
+    .popover-yr-btn:hover { background: #e2e8f0; color: #0f172a; }
+    .months-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+    }
+    .month-cell {
+      text-align: center;
+      padding: 8px 4px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      color: #374151;
+      transition: all 0.12s;
+    }
+    .month-cell:hover { background: #ede9fe; color: #6366f1; }
+    .month-cell.selected { background: #6366f1; color: #fff; font-weight: 700; }
+    .month-cell.current { border: 1.5px solid #6366f1; color: #6366f1; }
+    .month-cell.current.selected { border: none; }
+
+    /* =========================================
+       STYLE 3 — Glassmorphism Floating Input
+    ========================================= */
+    .glass-wrapper {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+    }
+    .glass-icon {
+      position: absolute;
+      left: 12px;
+      color: #6366f1;
+      pointer-events: none;
+    }
+    .glass-input {
+      padding: 10px 12px 10px 38px;
+      border: 1.5px solid rgba(99,102,241,0.3);
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 500;
+      background: rgba(99,102,241,0.06);
+      color: #0f172a;
+      backdrop-filter: blur(8px);
+      outline: none;
+      font-family: 'Inter', sans-serif;
+      min-width: 160px;
+      transition: all 0.2s;
+      color-scheme: light;
+    }
+    .glass-input:focus {
+      border-color: #6366f1;
+      background: rgba(99,102,241,0.1);
+      box-shadow: 0 0 0 4px rgba(99,102,241,0.12);
+    }
+    .glass-input::-webkit-calendar-picker-indicator {
+      opacity: 0.7;
+      cursor: pointer;
+      filter: invert(38%) sepia(60%) saturate(600%) hue-rotate(210deg);
+    }
+    .glass-input::-webkit-calendar-picker-indicator:hover { opacity: 1; }
+
+    /* =========================================
+       STYLE 4 — Minimal Underline Input
+    ========================================= */
+    .underline-wrapper {
+      position: relative;
+      display: inline-flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .underline-label-text {
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.07em;
+      color: #6366f1;
+    }
+    .underline-input {
+      padding: 6px 4px;
+      border: none;
+      border-bottom: 2px solid #e2e8f0;
+      border-radius: 0;
+      font-size: 15px;
+      font-weight: 600;
+      background: transparent;
+      color: #0f172a;
+      outline: none;
+      font-family: 'Inter', sans-serif;
+      min-width: 150px;
+      transition: border-color 0.2s;
+      color-scheme: light;
+    }
+    .underline-input:focus { border-bottom-color: #6366f1; }
+    .underline-input::-webkit-calendar-picker-indicator {
+      cursor: pointer;
+      opacity: 0.6;
+    }
+    .underline-input::-webkit-calendar-picker-indicator:hover { opacity: 1; }
+    .underline-bar {
+      height: 2px;
+      background: linear-gradient(90deg, #6366f1, #8b5cf6);
+      border-radius: 2px;
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.25s;
+      margin-top: -2px;
+    }
+    .underline-wrapper:focus-within .underline-bar { transform: scaleX(1); }
+    .underline-wrapper:focus-within .underline-input { border-bottom-color: transparent; }
+
+    /* =========================================
+       STYLE 5 — Chip Tag Selector
+    ========================================= */
+    .chip-group {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      width: 100%;
+    }
+    .chip-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .chip-year {
+      font-size: 13px;
+      font-weight: 600;
+      color: #64748b;
+    }
+    .chip-yr-btns { display: flex; gap: 4px; }
+    .chip-yr-btn {
+      background: #f1f5f9;
+      border: none;
+      border-radius: 6px;
+      width: 26px;
+      height: 26px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      color: #64748b;
+      transition: background 0.15s;
+    }
+    .chip-yr-btn:hover { background: #e2e8f0; }
+    .chip-months {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .chip {
+      padding: 5px 12px;
+      border-radius: 99px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1.5px solid #e2e8f0;
+      color: #374151;
+      background: #fff;
+      transition: all 0.15s;
+      font-family: 'Inter', sans-serif;
+    }
+    .chip:hover { border-color: #a5b4fc; color: #6366f1; background: #ede9fe; }
+    .chip.selected {
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      color: #fff;
+      border-color: transparent;
+      box-shadow: 0 4px 10px rgba(99,102,241,0.3);
+    }
+    .chip.current { border-color: #6366f1; color: #6366f1; }
+    .chip.current.selected { border-color: transparent; color: #fff; }
+
+    .selected-display {
+      font-size: 13px;
+      color: #64748b;
+      text-align: center;
+      padding-top: 4px;
+    }
+    .selected-display strong { color: #6366f1; }
+  </style>
+</head>
+<body>
+
+  <h1>Month Picker — Style Options</h1>
+  <p class="subtitle">Pick a style and tell me which one to implement in your Leave Applications filter.</p>
+
+  <div class="grid">
+
+    <!-- ===== STYLE 1: Arrow Nav ===== -->
+    <div class="card">
+      <div class="badge">Style A</div>
+      <div class="card-label">Option 1</div>
+      <div class="card-title">Arrow Navigator</div>
+      <div class="card-desc">Clean prev/next arrows with the month label in the center. No popup — just inline navigation. Great for minimal toolbars.</div>
+      <div class="demo-area">
+        <div class="nav-picker">
+          <button class="nav-btn" id="nav-prev">&#8249;</button>
+          <div class="nav-label" id="nav-label">March 2026</div>
+          <button class="nav-btn" id="nav-next">&#8250;</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== STYLE 2: Popover Grid ===== -->
+    <div class="card">
+      <div class="badge">Style B</div>
+      <div class="card-label">Option 2</div>
+      <div class="card-title">Popover Grid Picker</div>
+      <div class="card-desc">Click the button to open a floating grid of months. Year navigation built in. Looks premium and modern.</div>
+      <div class="demo-area" style="overflow: visible; position: relative;">
+        <div class="popover-wrapper">
+          <button class="popover-trigger" id="pop-trigger">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            <span id="pop-label">March 2026</span>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="popover-panel" id="pop-panel">
+            <div class="popover-header">
+              <button class="popover-yr-btn" id="pop-yr-prev">&#8249;</button>
+              <span class="popover-year" id="pop-yr-label">2026</span>
+              <button class="popover-yr-btn" id="pop-yr-next">&#8250;</button>
+            </div>
+            <div class="months-grid" id="pop-months-grid"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== STYLE 3: Glass Input ===== -->
+    <div class="card">
+      <div class="badge">Style C</div>
+      <div class="card-label">Option 3</div>
+      <div class="card-title">Glassmorphism Input</div>
+      <div class="card-desc">Styled native month input with a frosted-glass look, colored icon, and a glowing focus ring. Simple drop-in replacement.</div>
+      <div class="demo-area">
+        <div class="glass-wrapper">
+          <svg class="glass-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+            <line x1="16" y1="2" x2="16" y2="6"/>
+            <line x1="8" y1="2" x2="8" y2="6"/>
+            <line x1="3" y1="10" x2="21" y2="10"/>
+          </svg>
+          <input type="month" class="glass-input" value="2026-03" />
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== STYLE 4: Underline ===== -->
+    <div class="card">
+      <div class="badge">Style D</div>
+      <div class="card-label">Option 4</div>
+      <div class="card-title">Minimal Underline</div>
+      <div class="card-desc">Borderless, underline-only input with an animated gradient bar on focus. Ultra-minimal — great for clean, spacious UIs.</div>
+      <div class="demo-area">
+        <div class="underline-wrapper">
+          <span class="underline-label-text">Filter Month</span>
+          <input type="month" class="underline-input" value="2026-03" />
+          <div class="underline-bar"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== STYLE 5: Chip Tag ===== -->
+    <div class="card" style="grid-column: 1 / -1; max-width: 600px; margin: 0 auto; width: 100%;">
+      <div class="badge">Style E</div>
+      <div class="card-label">Option 5</div>
+      <div class="card-title">Chip / Tag Selector</div>
+      <div class="card-desc">All 12 months shown as clickable pill chips with year navigation above. The active month is highlighted with a gradient pill. Best for a dedicated filter panel.</div>
+      <div class="demo-area" style="flex-direction: column; align-items: stretch;">
+        <div class="chip-group" id="chip-group">
+          <div class="chip-row">
+            <span class="chip-year" id="chip-yr-label">2026</span>
+            <div class="chip-yr-btns">
+              <button class="chip-yr-btn" id="chip-yr-prev">&#8249;</button>
+              <button class="chip-yr-btn" id="chip-yr-next">&#8250;</button>
+            </div>
+          </div>
+          <div class="chip-months" id="chip-months"></div>
+          <div class="selected-display" id="chip-display">Selected: <strong>March 2026</strong></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    const MONTHS_FULL = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+    const NOW = new Date();
+    const CURR_M = NOW.getMonth(); // 2 (March)
+    const CURR_Y = NOW.getFullYear(); // 2026
+
+    // ── Style A: Arrow Navigator ─────────────────────
+    let navM = CURR_M, navY = CURR_Y;
+    const navLabel = document.getElementById('nav-label');
+    function updateNav() { navLabel.textContent = `${MONTHS_FULL[navM]} ${navY}`; }
+    document.getElementById('nav-prev').onclick = () => {
+      if (navM === 0) { navM = 11; navY--; } else navM--;
+      updateNav();
+    };
+    document.getElementById('nav-next').onclick = () => {
+      if (navM === 11) { navM = 0; navY++; } else navM++;
+      updateNav();
+    };
+
+    // ── Style B: Popover Grid ─────────────────────────
+    let popM = CURR_M, popY = CURR_Y, popOpen = false;
+    const popPanel = document.getElementById('pop-panel');
+    const popLabel = document.getElementById('pop-label');
+    const popYrLbl = document.getElementById('pop-yr-label');
+    const popGrid  = document.getElementById('pop-months-grid');
+
+    function renderPopGrid() {
+      popYrLbl.textContent = popY;
+      popGrid.innerHTML = '';
+      MONTHS.forEach((m, i) => {
+        const cell = document.createElement('div');
+        cell.className = 'month-cell' + (i === popM ? ' selected' : '') + (i === CURR_M && popY === CURR_Y ? ' current' : '');
+        cell.textContent = m;
+        cell.onclick = () => {
+          popM = i;
+          popLabel.innerHTML = `${MONTHS_FULL[i]} ${popY}`;
+          popOpen = false;
+          popPanel.classList.remove('open');
+          renderPopGrid();
+        };
+        popGrid.appendChild(cell);
+      });
+    }
+    document.getElementById('pop-trigger').onclick = (e) => {
+      e.stopPropagation();
+      popOpen = !popOpen;
+      popPanel.classList.toggle('open', popOpen);
+      renderPopGrid();
+    };
+    document.getElementById('pop-yr-prev').onclick = (e) => { e.stopPropagation(); popY--; renderPopGrid(); };
+    document.getElementById('pop-yr-next').onclick = (e) => { e.stopPropagation(); popY++; renderPopGrid(); };
+    document.addEventListener('click', () => { popOpen = false; popPanel.classList.remove('open'); });
+    renderPopGrid();
+
+    // ── Style E: Chip ─────────────────────────────────
+    let chipM = CURR_M, chipY = CURR_Y;
+    const chipYrLbl  = document.getElementById('chip-yr-label');
+    const chipMonths = document.getElementById('chip-months');
+    const chipDisp   = document.getElementById('chip-display');
+
+    function renderChips() {
+      chipYrLbl.textContent = chipY;
+      chipMonths.innerHTML = '';
+      MONTHS.forEach((m, i) => {
+        const chip = document.createElement('button');
+        chip.className = 'chip' + (i === chipM ? ' selected' : '') + (i === CURR_M && chipY === CURR_Y ? ' current' : '');
+        chip.textContent = m;
+        chip.onclick = () => { chipM = i; renderChips(); };
+        chipMonths.appendChild(chip);
+      });
+      chipDisp.innerHTML = `Selected: <strong>${MONTHS_FULL[chipM]} ${chipY}</strong>`;
+    }
+    document.getElementById('chip-yr-prev').onclick = () => { chipY--; renderChips(); };
+    document.getElementById('chip-yr-next').onclick = () => { chipY++; renderChips(); };
+    renderChips();
+  </script>
+</body>
+</html>

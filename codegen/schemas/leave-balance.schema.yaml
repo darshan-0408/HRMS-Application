@@ -1,0 +1,48 @@
+entity:
+  name: LeaveBalance
+  plural: LeaveBalances
+  module: leave-management
+  description: Tracking allotted and consumed leaves per employee
+
+fields:
+  - name: leave_balance_id
+    type: String
+    external_id: true
+    unique: true
+
+  - name: employeeId
+    type: String
+    required: true
+    filterable: true
+
+  - name: leaveTypeId
+    type: String
+    required: true
+    filterable: true
+
+  - name: allotted
+    type: Number
+    required: true
+    default: 0
+
+  - name: consumed
+    type: Number
+    required: true
+    default: 0
+
+  - name: remaining
+    type: Number
+    required: true
+    default: 0
+
+operations:
+  include:
+    - get
+    - list
+    - update
+
+events:
+  source: "eduapp.leave-management"
+
+permissions:
+  prefix: "leave:balance"

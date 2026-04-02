@@ -1,0 +1,36 @@
+entity:
+  name: Designation
+  plural: Designations
+  module: settings-management
+  description: Job roles and designations for faculty/staff
+
+fields:
+  - name: designation_id
+    type: String
+    external_id: true
+    unique: true
+
+  - name: name
+    type: String
+    required: true
+    primary: true
+    searchable: true
+    filterable: true
+    sortable: true
+
+operations:
+  include:
+    - create
+    - update
+    - softDelete
+    - restore
+    - get
+    - getByExternalId
+    - list
+    - count
+
+events:
+  source: "eduapp.settings-management"
+
+permissions:
+  prefix: "settings:designation"
